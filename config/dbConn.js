@@ -1,7 +1,7 @@
 // database.js
 const { Sequelize } = require("sequelize");
 const models = require("../models");
-let associations = {};
+let associations = {}, DBModels = {};
 
 const sequelize = new Sequelize(
   process.env.DB_NAME,
@@ -26,6 +26,7 @@ const sequelize = new Sequelize(
 //defining model using connection variable
 Object.keys(models).forEach((model) => {
   let currentModel = models[model](sequelize);
+  DBModels[model] = currentModel;
   if (currentModel.associate) {
     associations[model] = currentModel.associate;
   }
@@ -38,4 +39,4 @@ Object.keys(associations).forEach((modelName) => {
   }
 });
 
-module.exports = sequelize;
+module.exports = { sequelize, DBModels };

@@ -1,15 +1,10 @@
 const express = require("express");
 const app = express();
 const PORT = process.env.PORT || 4500;
-const db = require("./config/dbConn");
+const { sequelize } = require("./config/dbConn");
 const { authRoutes } = require("./routes");
 
-app.get("/", async (req, res) => {
-  let Employees = await db.models.Department.findAll({ raw: true });
-  console.log("Employees", Employees);
-  return res.send("Hello World Change");
-});
-
+app.use(express.json());
 app.use("/auth", authRoutes);
 
 app.all("*", (req, res) => {
@@ -18,7 +13,7 @@ app.all("*", (req, res) => {
 
 const initApp = async () => {
   try {
-    db.sync().then(() => {
+    sequelize.sync().then(() => {
       app.listen(PORT, () => {
         console.log(`server is running on port ${PORT}`);
       });
