@@ -28,7 +28,6 @@ const searchContact = async (req, res) => {
         } else if (searchBy === "phone") {
             let foundUser = await DBModels.user.findOne({ where: { phone_number: searchString } });
             if (foundUser) {
-                console.log(foundUser);
                 finalResult = {
                     name: foundUser.name,
                     phone_number: foundUser.phone_number,
