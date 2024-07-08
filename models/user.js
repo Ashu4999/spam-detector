@@ -26,6 +26,9 @@ module.exports = (sequelize) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
+      refreshToken: {
+        type: DataTypes.STRING,
+      }
     },
     {
       indexes: [{ unique: true, fields: ["id", "phone_number", "email"] }],

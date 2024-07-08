@@ -1,23 +1,37 @@
 const express = require("express");
 const router = express.Router();
-const { resgister, login } = require("../controllers/authController");
-const { requestParamsValidate } = require("../middleware/requestParamsValidate");
-const Joi = require('joi');
+const { register, login, refreshToken } = require("../controllers/authController");
+const {
+  requestParamsValidate,
+} = require("../middleware/requestParamsValidate");
+const Joi = require("joi");
 
-const userSchema = {
-    body: Joi.object({
-        username: Joi.string().alphanum().min(3).max(30).required(),
-        email: Joi.string().email().required(),
-        password: Joi.string()
-            .pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/)
-            .required()
-            .messages({
-                'string.pattern.base': 'Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one digit, and one special character.',
-            }),
-        phone: Joi.string().required(),
-    }),
+const registerSchema = {
+  body: Joi.object({
+    username: Joi.string().alphanum().min(3).max(30).required(),
+    email: Joi.string().email(),
+    password: Joi.string()
+      .pattern(
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
+      )
+      .required()
+      .messages({
+        "string.pattern.base":
+          "Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one digit, and one special character.",
+      }),
+    phone: Joi.string().min(10).max(12).required(),
+  }),
 };
 
-router.post("/register", requestParamsValidate(userSchema), resgister).get("/login", login);
+const loginSchema = {
+  body: Joi.object({
+    phone: Joi.string().min(10).max(12).required(),
+    password: Joi.string().required(),
+  }),
+};
+
+router.post("/register", requestParamsValidate(registerSchema), register);
+router.post("/login", requestParamsValidate(loginSchema), login);
+router.get("/refresh", refreshToken);
 
 module.exports = router;
