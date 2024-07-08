@@ -9,6 +9,9 @@ module.exports = (sequelize) => {
         defaultValue: Sequelize.UUIDV4,
         primaryKey: true,
       },
+      phone_ownername:{
+        type: DataTypes.STRING,
+      },
       phone_number: {
         type: DataTypes.STRING,
         allowNull: false,

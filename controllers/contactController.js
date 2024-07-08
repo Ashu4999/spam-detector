@@ -19,10 +19,14 @@ const getContact = async (req, res) => {
         }
 
         let contacts = await DBModels.contact.findAll({ where });
-        return res.json(contacts);
-    } catch (error) {
-        console.error(error);
-        return res.status(500).json({ message: "Something went wrong" });
+        return res.send(contacts);
+    } catch (Exception) {
+        console.error(Exception);
+        let customeError = null;
+        if (Exception.name === "SequelizeUniqueConstraintError") {
+            customeError = Exception.errors[0].message;
+        }
+        return res.status(Exception.code || 500).json({ message: customeError || Exception.message || Exception.toString() });
     }
 };
 
@@ -36,10 +40,14 @@ const createContact = async (req, res) => {
             user_id,
         });
 
-        return res.status(201).json(newContact);
-    } catch (error) {
-        console.error(error);
-        return res.status(500).json({ message: "Something went wrong" });
+        return res.status(201).send(newContact);
+    } catch (Exception) {
+        console.error(Exception);
+        let customeError = null;
+        if (Exception.name === "SequelizeUniqueConstraintError") {
+            customeError = Exception.errors[0].message;
+        }
+        return res.status(Exception.code || 500).json({ message: customeError || Exception.message || Exception.toString() });
     }
 };
 
@@ -51,7 +59,7 @@ const updateContact = async (req, res) => {
         const contact = await DBModels.contact.findByPk(id);
 
         if (!contact) {
-            return res.status(404).json({ message: "Contact not found" });
+            throw { code: 404, message: "Contact not found" };
         }
 
         await contact.update({
@@ -60,10 +68,14 @@ const updateContact = async (req, res) => {
             user_id,
         });
 
-        return res.json(contact);
-    } catch (error) {
-        console.error(error);
-        return res.status(500).json({ message: "Something went wrong" });
+        return res.send(contact);
+    } catch (Exception) {
+        console.error(Exception);
+        let customeError = null;
+        if (Exception.name === "SequelizeUniqueConstraintError") {
+            customeError = Exception.errors[0].message;
+        }
+        return res.status(Exception.code || 500).json({ message: customeError || Exception.message || Exception.toString() });
     }
 };
 
@@ -74,15 +86,19 @@ const deleteContact = async (req, res) => {
         const contact = await DBModels.contact.findByPk(id);
 
         if (!contact) {
-            return res.status(404).json({ message: "Contact not found" });
+            throw { code: 404, message: "Contact not found" };
         }
 
         await contact.destroy();
 
-        return res.json({ message: "Contact deleted successfully" });
-    } catch (error) {
-        console.error(error);
-        return res.status(500).json({ message: "Something went wrong" });
+        return res.send({ message: "Contact deleted successfully" });
+    } catch (Exception) {
+        console.error(Exception);
+        let customeError = null;
+        if (Exception.name === "SequelizeUniqueConstraintError") {
+            customeError = Exception.errors[0].message;
+        }
+        return res.status(Exception.code || 500).json({ message: customeError || Exception.message || Exception.toString() });
     }
 };
 

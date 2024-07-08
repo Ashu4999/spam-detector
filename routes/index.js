@@ -1,5 +1,6 @@
 const authRoutes = require("./authRoutes");
-const contactRoute = require("./contactRoute");
-const spamRoute = require("./spamRoute");
+const contactRoutes = require("./contactRoutes");
+const spamRoutes = require("./spamRoutes");
+const userRoutes = require("./userRoutes");
 
-module.exports = { authRoutes, contactRoute, spamRoute };
+module.exports = { authRoutes, contactRoutes, spamRoutes, userRoutes };

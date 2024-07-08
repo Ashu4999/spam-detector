@@ -30,6 +30,14 @@ const register = async (req, res) => {
     }
     const hashPwd = await bcrypt.hash(password, 10);
     const User = await DBModels.user.create({ name: username, password: hashPwd, email, phone_number: phone });
+
+    const UserContact = await DBModels.contact.create({
+      contact_name: username,
+      contact_phone_number: phone,
+      user_id: User.id,
+    });
+
+    
     return res.send({ message: `User registered ${User.name} ${User.id}` });
   } catch (Exception) {
     let customeError = null;
