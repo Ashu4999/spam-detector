@@ -17,6 +17,10 @@ module.exports = (sequelize) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
+      isRegisteredUser: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false
+      }
     },
     {
       indexes: [{ unique: true, fields: ["id"] }],

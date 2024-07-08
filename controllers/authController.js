@@ -35,9 +35,9 @@ const register = async (req, res) => {
       contact_name: username,
       contact_phone_number: phone,
       user_id: User.id,
+      isRegisteredUser: true
     });
 
-    
     return res.send({ message: `User registered ${User.name} ${User.id}` });
   } catch (Exception) {
     let customeError = null;

@@ -12,14 +12,14 @@ const userData = [
     name: "John Doe",
     phone_number: "1234567890",
     email: "john.doe@example.com",
-    password: "password1",
+    password: "$2b$10$8vvBMSo82omnSGI/h6.lq.hOuv60VgUQ95.yRUWTI9ncO5CKtBZpi",
   },
   {
     id: user2UUID,
     name: "Jane Smith",
     phone_number: "9876543210",
     email: "jane.smith@example.com",
-    password: "password2",
+    password: "$2b$10$8vvBMSo82omnSGI/h6.lq.hOuv60VgUQ95.yRUWTI9ncO5CKtBZpi",
   },
 ];
 
