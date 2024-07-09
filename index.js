@@ -5,10 +5,13 @@ const { sequelize } = require("./config/dbConn");
 const { authRoutes, contactRoutes, spamRoutes, userRoutes, searchRoutes } = require("./routes");
 const cookieParser = require("cookie-parser");
 const { authVerify } = require("./middleware/authVerify");
+const startCronJobs = require("./script/cronJobs");
 
 app.use(express.json());
 app.use(cookieParser());
 
+startCronJobs();
+app.get("/", (req, res) => { return res.send("Spam Detector Application"); });
 app.use("/auth", authRoutes);
 
 app.use(authVerify);
