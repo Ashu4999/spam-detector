@@ -4,7 +4,7 @@ const axios = require('axios');
 const APP_URL = process.env.API_URL;
 
 const startCronJobs = () => {
-  cron.schedule('*/5 * * * *', () => { // Every 5 minutes
+  cron.schedule('0 0 * * *', () => { // Every day at 12 AM
     axios.get(APP_URL)
       .then(response => {
         console.log('Ping successful', new Date().toLocaleString());
